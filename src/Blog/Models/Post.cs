@@ -17,7 +17,7 @@ namespace Blog.Models
 		[MaxLength(50)]
 		public string Headline { get; set; }
 
-		[Column(TypeName = "date")]
+		//[Column(TypeName = "date")]
 		public DateTime PostDate { get; set; }
 
 		public PostCategory CategoryType { get; set; }

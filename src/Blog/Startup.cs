@@ -6,6 +6,7 @@ using Blog.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -32,16 +33,16 @@ namespace Blog
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{	
+			// Add framework services.
+			services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddMvc();
+			services.AddMvc();
 
-			services.AddDbContext<DatabaseContext>(s => s.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Blog;Integrated Security=True;Connect Timeout=30;"));
-
+			string conString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Blog;Integrated Security=True;Connect Timeout=30;";
+			services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(conString));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

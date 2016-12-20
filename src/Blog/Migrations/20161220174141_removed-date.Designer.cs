@@ -8,9 +8,10 @@ using Blog.Models;
 namespace Blog.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20161220174141_removed-date")]
+    partial class removeddate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -47,7 +48,7 @@ namespace Blog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostCategories");
+                    b.ToTable("PostCategory");
                 });
 
             modelBuilder.Entity("Blog.Models.Post", b =>

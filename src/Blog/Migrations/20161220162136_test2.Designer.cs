@@ -8,9 +8,10 @@ using Blog.Models;
 namespace Blog.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20161220162136_test2")]
+    partial class test2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -26,7 +27,8 @@ namespace Blog.Migrations
                     b.Property<string>("Headline")
                         .HasMaxLength(50);
 
-                    b.Property<DateTime>("PostDate");
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("PostMessage")
                         .HasMaxLength(2000);
@@ -47,7 +49,7 @@ namespace Blog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostCategories");
+                    b.ToTable("PostCategory");
                 });
 
             modelBuilder.Entity("Blog.Models.Post", b =>

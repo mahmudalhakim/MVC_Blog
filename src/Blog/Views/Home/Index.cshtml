@@ -1,1 +1,40 @@
-﻿
+﻿@model List<Blog.Models.Post>
+
+<html>
+<head>
+	<title>Blog</title>
+</head>
+
+<body>
+	<h1>Blog</h1>
+	<div id="content">
+		<div class="input">
+			<form asp-controller="Home" asp-action="Create" method="post">
+				Blogtype:
+				<input type="radio" name="type" value="rant" checked /> Rant
+				<input type="radio" name="type" value="game" /> Game
+				<input type="radio" name="type" value="mtg" /> MTG<br>
+				<input id="inputHeadline" type="text" name="headline" value="" placeholder="Headline">
+				<textarea id="textArea"  placeholder="Content"></textarea>
+				<input id="submitPost" class="btn" type="submit" value="Submit">
+			</form>
+		</div>
+		<hr />
+
+		<div class="blogArea">
+			@foreach(var item in Model)
+			{
+				<h5>Category: <a>@item.CategoryType.CategoryName.ToUpper()</a> </h5>
+				<h2>@item.Headline</h2>
+				<h6>@item.PostDate.ToString(@"yyyy-MM-dd HH:mm")</h6>
+				<p>@item.PostMessage</p>
+				<hr />
+			}
+		</div>
+
+	</div>
+
+
+</body>
+
+</html>
