@@ -2,21 +2,29 @@
 
 <html>
 <head>
-	<title>Blog</title>
+
 </head>
 
 <body>
 	<h1>Blog</h1>
+
 	<div id="content">
+		<div class="search">
+			<input id="searchButton" class="btn" type="submit" value="Search" onclick="Search()">
+			<input id="search" type="text" value="@ViewBag.search" placeholder="Search">
+			<input id="clearButton" class="btn" type="submit" value="Clear" onclick="Clear()">
+		</div>
+
 		<div class="input">
-			<form asp-controller="Home" asp-action="Create" method="post">
+			<form asp-controller="Home" asp-action="CreatePost" method="post">
 				Blogtype:
-				<input type="radio" name="type" value="rant" checked /> Rant
-				<input type="radio" name="type" value="game" /> Game
-				<input type="radio" name="type" value="mtg" /> MTG<br>
+				<input type="radio" name="type" value="RANT" checked /> Rant
+				<input type="radio" name="type" value="GAME" /> Game
+				<input type="radio" name="type" value="MTG" /> MTG<br>
+
 				<input id="inputHeadline" type="text" name="headline" value="" placeholder="Headline">
-				<textarea id="textArea"  placeholder="Content"></textarea>
-				<input id="submitPost" class="btn" type="submit" value="Submit">
+				<textarea id="inputTextArea" name="textContent" placeholder="Content"></textarea>
+				<input id="submitPostButton" class="btn" type="submit" value="Save" onclick="return Validate()">
 			</form>
 		</div>
 		<hr />
@@ -24,17 +32,63 @@
 		<div class="blogArea">
 			@foreach(var item in Model)
 			{
-				<h5>Category: <a>@item.CategoryType.CategoryName.ToUpper()</a> </h5>
-				<h2>@item.Headline</h2>
-				<h6>@item.PostDate.ToString(@"yyyy-MM-dd HH:mm")</h6>
-				<p>@item.PostMessage</p>
-				<hr />
+				<div id="post-@item.Id">
+					<h5>Category: <a href="/Home/Index/@item.CategoryType.CategoryName">@item.CategoryType.CategoryName.ToUpper()</a> </h5>
+					<h2 class="headline">@item.Headline</h2>
+					<a href="#" class="removePost" onclick="DeletePost(@item.Id)">Remove</a>
+					<h6>@item.PostDate.ToString(@"yyyy-MM-dd HH:mm")</h6>
+					<p class="postContent">@item.PostMessage</p>
+					<hr />
+				</div>
 			}
 		</div>
 
 	</div>
 
+	<script>
+		$(document).ready(function () {
+			$(".headline").click(function () {
+				$(this).siblings(".postContent").slideToggle();
+			});
+		});
 
+		function Validate() {
+			var validate = true;
+
+			var headline = document.getElementById("inputHeadline");
+			var content = document.getElementById("inputTextArea");
+
+			if (headline.value.trim().length <= 0) {
+				headline.classList.add("unfinished");
+				validate = false;
+			}
+			else {
+				headline.classList.remove("unfinished");
+			}
+
+			if (content.value.trim().length <= 0) {
+				content.classList.add("unfinished");
+				validate = false;
+			}
+			else {
+				content.classList.remove("unfinished");
+			}
+			return validate;
+		}
+
+		function DeletePost(id) {
+			if (confirm("Are you sure you want to delete?"))
+				window.location.href = "/Home/DeletePost/" + id;
+		}
+
+		function Search() {
+			var search = document.getElementById("search").value;
+			window.location.href = "/Home/Index/" + search;
+		}
+
+		function Clear() {
+			window.location.href = "/Home/Index/";
+		}
+	</script>
 </body>
-
 </html>

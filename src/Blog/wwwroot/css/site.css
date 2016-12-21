@@ -1,7 +1,8 @@
 ﻿body {
 	padding-top: 50px;
 	padding-bottom: 20px;
-	background-color: #f1f1f1;
+	background-color: #101010;
+	color: white;
 }
 
 .body-content {
@@ -9,26 +10,70 @@
 	padding-right: 15px;
 }
 
-#textArea {
+#inputTextArea {
 	width: 500px;
 	height: 250px;
 	max-width: 80%;
+	background-color: #101010;
+}
+
+#inputHeadline {
+	width: 500px;
+	max-width: 80%;
+	background-color: #101010;
 }
 
 #content {
 	display: block;
 	width: 75%;
-	background-color: white;
+	background-color: #161616;
 }
 
-#submitPost {
+#submitPostButton, #searchButton {
 	display: block;
 	vertical-align: bottom;
 	margin-bottom: 3px;
 	margin: 5px;
+	color: black;
+}
+
+#searchButton {
+	float: right;
+	display: block;
+}
+
+#clearButton {	
+	margin-bottom: 3px;
+	margin: 5px;
+	color: black;
+	float: right;
+	display: block;
 	
 }
 
-#inputHeadline {
-	display: block;
+.removePost, #removeConfirmation {
+	float: right;
+	margin-right: 10px;
+}
+
+.postContent {
+	display: none;
+}
+
+.headline:hover {
+	color: aquamarine;
+}
+
+.unfinished {
+	color: black;
+	background-color: indianred !important;
+}
+
+#search {
+	float: right;
+	width: 25%;
+	background-color: #101010;
+	color: white;
+	margin-bottom: 3px;
+	margin: 5px;
 }

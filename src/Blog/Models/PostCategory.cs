@@ -9,8 +9,6 @@ namespace Blog.Models
 	{
 		public int Id { get; set; }
 		public string CategoryName { get; set; }
-		public List<Post> Posts { get; set; }
-		
-
+		//public List<Post> Posts { get; set; }
 	}
 }
