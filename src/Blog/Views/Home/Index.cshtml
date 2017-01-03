@@ -58,7 +58,7 @@
 			var headline = document.getElementById("inputHeadline");
 			var content = document.getElementById("inputTextArea");
 
-			if (headline.value.trim().length <= 0) {
+			if (headline.value.trim().length <= 0 || headline.value.trim().length > 50) {
 				headline.classList.add("unfinished");
 				validate = false;
 			}
@@ -66,7 +66,7 @@
 				headline.classList.remove("unfinished");
 			}
 
-			if (content.value.trim().length <= 0) {
+			if (content.value.trim().length <= 0 || content.value.trim().length > 2000) {
 				content.classList.add("unfinished");
 				validate = false;
 			}
@@ -89,6 +89,7 @@
 		function Clear() {
 			window.location.href = "/Home/Index/";
 		}
+
 	</script>
 </body>
 </html>
