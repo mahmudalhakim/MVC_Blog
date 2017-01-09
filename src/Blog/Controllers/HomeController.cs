@@ -45,14 +45,14 @@ namespace Blog.Controllers
 			}
 
 			ViewBag.search = id?.Trim();
-			return View(posts);
+			return View(posts.OrderByDescending(s => s.Id).ToList());
 		}
 
 		public IActionResult CreatePost(string textContent, string headline, string type)
 		{
 			var categoryType = new PostCategory() { CategoryName = type.ToUpper() };
 
-			//If the categorytype exists in database. Set the categorytype to its id.
+			//If the categorytype already exists in database. Set the categorytype to its id.
 			if(db.PostCategories.Any(s => s.CategoryName.Trim().ToLower() == type.Trim().ToLower()))
 				categoryType = db.PostCategories.FirstOrDefault(s => s.CategoryName.Trim().ToLower() == type.Trim().ToLower());
 
