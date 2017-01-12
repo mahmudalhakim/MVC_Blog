@@ -9,11 +9,13 @@ namespace Blog.Controllers
 {
 	public class HomeController : Controller
 	{
+		//TO BE REMOVED
 		private DatabaseContext db;
 		public HomeController(DatabaseContext _context)
 		{
 			db = _context;
 		}
+		//------------
 
 		public IActionResult Index(string id)
 		{

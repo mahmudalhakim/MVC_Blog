@@ -39,10 +39,9 @@ namespace Blog
 			// Add framework services.
 			services.AddApplicationInsightsTelemetry(Configuration);
 
-			services.AddMvc();
+			services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Blog;Integrated Security=True;Connect Timeout=30;"));
 
-			string conString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Blog;Integrated Security=True;Connect Timeout=30;";
-			services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(conString));
+			services.AddMvc();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
