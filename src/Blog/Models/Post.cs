@@ -11,15 +11,17 @@ namespace Blog.Models
     {
 		public int Id { get; set; }
 
-		[MaxLength(2000)]
-		public string PostMessage { get; set; }
-
-		[MaxLength(50)]
+		[Required(ErrorMessage = "Required!")]
+		[StringLength(maximumLength: 50, MinimumLength = 1, ErrorMessage = "Max 50 characters, at least 1 character")]
+		[Display(Name = "Headline:")]
 		public string Headline { get; set; }
 
-		//[Column(TypeName = "date")]
+		[Required(ErrorMessage = "Required!")]
+		[StringLength(maximumLength: 2000, MinimumLength = 3, ErrorMessage = "Max 2000 characters, at least 3 characters")]	
+		public string PostMessage { get; set; }
+
 		public DateTime PostDate { get; set; }
 
-		public PostCategory CategoryType { get; set; }
+		public Category CategoryType { get; set; }
 	}
 }

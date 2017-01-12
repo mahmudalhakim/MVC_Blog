@@ -10,14 +10,14 @@
 	padding-right: 15px;
 }
 
-#inputTextArea {
+#Post_PostMessage {
 	width: 500px;
 	height: 250px;
 	max-width: 80%;
 	background-color: #101010;
 }
 
-#inputHeadline {
+#Post_Headline {
 	width: 500px;
 	max-width: 80%;
 	background-color: #101010;
@@ -31,7 +31,6 @@
 
 #submitPostButton, #searchButton {
 	display: block;
-	vertical-align: bottom;
 	margin-bottom: 3px;
 	margin: 5px;
 	color: black;
@@ -42,13 +41,12 @@
 	display: block;
 }
 
-#clearButton {	
+#clearButton {
 	margin-bottom: 3px;
 	margin: 5px;
 	color: black;
 	float: right;
 	display: block;
-	
 }
 
 .removePost, #removeConfirmation {
@@ -78,6 +76,15 @@
 	margin: 5px;
 }
 
-.headline{
+.headline {
 	color: lightskyblue;
+}
+
+.radioCategory {
+	display: inline-block;
+	margin: 2px;
+}
+
+button {
+	color: black;
 }

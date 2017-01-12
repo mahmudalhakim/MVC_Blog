@@ -17,56 +17,44 @@ namespace Blog.Controllers
 
 		public IActionResult Index(string id)
 		{
+			var viewModel = new ViewModel();
 			List<Post> posts;
 
 			var search = id?.Trim().ToUpper();
 
-			var categories = db.PostCategories.ToList(); //ASK why this is needed. Without this the "post.categorytype" is null
+			var categories = db.PostCategories.ToList();
 
 			if(string.IsNullOrEmpty(search) || search == "")
 				posts = db.Posts.ToList();
 			else
-			{
-				switch(search)
-				{
-					case "MTG":
-						posts = db.Posts.Where(s => s.CategoryType.CategoryName == "MTG").ToList();
-						break;
-					case "GAME":
-						posts = db.Posts.Where(s => s.CategoryType.CategoryName == "GAME").ToList();
-						break;
-					case "RANT":
-						posts = db.Posts.Where(s => s.CategoryType.CategoryName == "RANT").ToList();
-						break;
-					default:
-						posts = db.Posts.Where(s => s.Headline.Contains(search)).ToList();
-						break;
-				}
-			}
+				posts = db.Posts.Where(s => s.Headline.Contains(search)).ToList();
 
 			ViewBag.search = id?.Trim();
-			return View(posts.OrderByDescending(s => s.Id).ToList());
+
+			viewModel.Categories = categories;
+			viewModel.Posts = posts.OrderByDescending(s => s.Id).ToList();
+
+			return View(viewModel);
 		}
 
-		public IActionResult CreatePost(string textContent, string headline, string type)
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult CreatePost(Post post)
 		{
-			var categoryType = new PostCategory() { CategoryName = type.ToUpper() };
+			if(!ModelState.IsValid)				
+				return RedirectToAction("Index");
+
+			post.CategoryType.CategoryName = post.CategoryType.CategoryName.ToUpper();
 
 			//If the categorytype already exists in database. Set the categorytype to its id.
-			if(db.PostCategories.Any(s => s.CategoryName.Trim().ToLower() == type.Trim().ToLower()))
-				categoryType = db.PostCategories.FirstOrDefault(s => s.CategoryName.Trim().ToLower() == type.Trim().ToLower());
+			if(db.PostCategories.Any(s => s.CategoryName.Trim().ToUpper() == post.CategoryType.CategoryName.Trim()))
+				post.CategoryType = db.PostCategories.FirstOrDefault(s => s.CategoryName.Trim().ToUpper() == post.CategoryType.CategoryName);
 
-			var newPost = new Post()
-			{
-				PostMessage = textContent,
-				Headline = headline,
-				PostDate = DateTime.Now,
-				CategoryType = categoryType
-			};
-
-			db.Posts.Add(newPost);
+			post.PostDate = DateTime.Now;
+			
+			db.Posts.Add(post);
 			db.SaveChanges();
-
+			
 			return RedirectToAction("Index");
 		}
 

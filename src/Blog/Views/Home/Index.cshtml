@@ -1,10 +1,8 @@
-﻿@model List<Blog.Models.Post>
+﻿@model Blog.Models.ViewModel
 
 <html>
 <head>
-
 </head>
-
 <body>
 	<h1>Blog</h1>
 
@@ -12,25 +10,52 @@
 		<div class="search">
 			<input id="searchButton" class="btn" type="submit" value="Search" onclick="Search()">
 			<input id="search" type="text" value="@ViewBag.search" placeholder="Search">
-			<input id="clearButton" class="btn" type="submit" value="Clear" onclick="Clear()">
 		</div>
 
 		<div class="input">
 			<form asp-controller="Home" asp-action="CreatePost" method="post">
-				Blogtype:
-				<input type="radio" name="type" value="RANT" checked /> Rant
-				<input type="radio" name="type" value="GAME" /> Game
-				<input type="radio" name="type" value="MTG" /> MTG<br>
+				<div>
+					@foreach(var item in Model.Categories)
+					{
+						<div class="radioCategory">
+							@if(item.CategoryName == "RANT")
+							{
+								//name = "category"
+								<label>
+									<input checked asp-for="Post.CategoryType.CategoryName" class="radio-inline" type="radio" value="@item.CategoryName"/> @item.CategoryName.ToUpper() <br />
+								</label>
+							}
+							else
+							{
+								<label>
+									<input asp-for="Post.CategoryType.CategoryName" class="radio-inline" type="radio" value="@item.CategoryName" /> @item.CategoryName.ToUpper() <br />
+								</label>
+							}
+							<span asp-validation-for="Post.CategoryType.CategoryName"></span>
+						</div>
+					}
+				</div>
+				<br />
+				<div>
+					<input asp-for="Post.Headline" placeholder="Headline" required/>
+					<span asp-validation-for="Post.Headline"></span>
+				</div>
+				<div>
+					<textarea asp-for="Post.PostMessage" placeholder="Content" required></textarea>
+					<span asp-validation-for="Post.PostMessage"></span>
+				</div>
 
-				<input id="inputHeadline" type="text" name="headline" value="" placeholder="Headline" maxlength="50">
-				<textarea id="inputTextArea" name="textContent" placeholder="Content" maxlength="2000"></textarea>
-				<input id="submitPostButton" class="btn" type="submit" value="Save" onclick="return Validate()">
+				<div>
+					<button class="btn" type="submit" onclick="return Validate()">Send</button>
+					<button class="btn" type="reset">Reset</button>
+				</div>
 			</form>
+
 		</div>
 		<hr />
 
 		<div class="blogArea">
-			@foreach(var item in Model)
+			@foreach(var item in Model.Posts)
 			{
 				<div id="post-@item.Id">
 					<h5>Category: <a href="/Home/Index/@item.CategoryType.CategoryName">@item.CategoryType.CategoryName.ToUpper()</a> </h5>
@@ -55,10 +80,10 @@
 		function Validate() {
 			var validate = true;
 
-			var headline = document.getElementById("inputHeadline");
-			var content = document.getElementById("inputTextArea");
+			var headline = document.getElementById("Post_Headline");
+			var content = document.getElementById("Post_PostMessage");
 
-			if (headline.value.trim().length <= 0 || headline.value.trim().length > 50) {
+			if (headline.value.trim().length < 1 || headline.value.trim().length > 50) {
 				headline.classList.add("unfinished");
 				validate = false;
 			}
@@ -66,7 +91,7 @@
 				headline.classList.remove("unfinished");
 			}
 
-			if (content.value.trim().length <= 0 || content.value.trim().length > 2000) {
+			if (content.value.trim().length < 3 || content.value.trim().length > 2000) {
 				content.classList.add("unfinished");
 				validate = false;
 			}

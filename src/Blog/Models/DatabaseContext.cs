@@ -10,6 +10,6 @@ namespace Blog.Models
     {
 		public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 		public DbSet<Post> Posts { get; set; }
-		public DbSet<PostCategory> PostCategories { get; set; }
+		public DbSet<Category> PostCategories { get; set; }
 	}
 }
